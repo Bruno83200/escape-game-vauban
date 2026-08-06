@@ -1,0 +1,246 @@
+:root {
+    --gold: #d4af37;
+    --royal-blue: #1a2a44;
+    --stone: #e0d5c0;
+    --ink: #3d2b1f;
+    --glass: rgba(0, 0, 0, 0.4); /* Rendu plus transparent pour la carte */
+}
+
+body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Crimson Text', serif;
+    background-color: #000; color: var(--stone);
+    overflow: hidden;
+}
+
+.bg-accueil {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background-image: url('../assets/images/bg_accueil.webp');
+    background-size: cover; background-position: center; z-index: 1;
+}
+
+/* Filtre noir adouci pour mieux voir l'image de fond */
+.bg-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.6) 100%);
+    z-index: 2;
+}
+
+.container {
+    position: relative; z-index: 10;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; height: 100vh;
+}
+
+h1 {
+    font-family: 'Cinzel', serif; font-size: 3.5rem; color: var(--gold);
+    margin: 0; letter-spacing: 5px; text-align: center;
+    text-shadow: 2px 2px 15px rgba(0,0,0,1);
+}
+
+.subtitle {
+    font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--gold);
+    letter-spacing: 3px; text-align: center; margin-top: 5px;
+    text-shadow: 1px 1px 5px rgba(0,0,0,1);
+}
+
+.auth-card {
+    background: var(--glass); padding: 30px; border: 1px solid var(--gold);
+    border-radius: 4px; width: 350px; margin-top: 30px;
+    backdrop-filter: blur(5px); box-shadow: 0 0 40px rgba(0,0,0,0.8);
+}
+
+.input-group { margin-bottom: 15px; }
+label { display: block; margin-bottom: 5px; font-size: 0.85rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
+input { width: 100%; padding: 10px; background: rgba(0,0,0,0.5); border: 1px solid #444; color: white; box-sizing: border-box; }
+
+.btn-main {
+    width: 100%; padding: 12px; background: var(--royal-blue); color: white;
+    border: 1px solid var(--gold); font-family: 'Cinzel', serif;
+    cursor: pointer; transition: 0.3s; margin-top: 10px; font-weight: bold;
+}
+.btn-main:hover { background: #2a3a54; box-shadow: 0 0 15px var(--gold); }
+
+.toggle-auth { margin-top: 15px; font-size: 0.85rem; color: #ccc; cursor: pointer; text-align: center; text-decoration: underline; }
+
+/* COPYRIGHT BAS GAUCHE */
+.credits {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    color: var(--gold);
+    font-size: 0.85rem;
+    z-index: 100;
+    opacity: 0.8;
+    font-family: 'Crimson Text', serif;
+}
+
+/* MODALES PARCHEMIN */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); display: none; z-index: 1000;
+    justify-content: center; align-items: center;
+}
+
+.modal-content {
+    background: #f4e4bc;
+    border: 2px solid #8b5a2b;
+    width: 90%; max-width: 500px; padding: 40px;
+    box-shadow: 0 0 50px rgba(0,0,0,1);
+    text-align: center; color: var(--ink);
+}
+
+.btn-modal {
+    margin-top: 20px; background: var(--ink); color: #f4e4bc; 
+    border: none; padding: 10px 25px; cursor: pointer; font-family: 'Cinzel';
+}
+
+/* MODALE OBJET TROUVÉ (Sombre et Or) */
+.item-modal-content {
+    background: linear-gradient(145deg, #1a1a1a, #000);
+    border: 3px solid var(--gold);
+    width: 90%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 1);
+    animation: modalFadeIn 0.5s ease-out;
+}
+
+.item-modal-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    background: rgba(255,255,255,0.05);
+    border-right: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.item-modal-left img {
+    max-width: 100%;
+    max-height: 200px;
+    filter: drop-shadow(0 0 15px var(--gold));
+}
+
+.item-modal-right {
+    flex: 1.5;
+    padding: 40px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Adaptation mobile pour la modale d'objet */
+@media (max-width: 600px) {
+    .item-modal-content { flex-direction: column; }
+    .item-modal-left { border-right: none; border-bottom: 1px solid var(--gold); }
+}
+
+/* --- ZONE DE JEU (GAME UI) --- */
+
+#scene-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#ui-panel {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+    background-color: rgba(0, 0, 0, 0.45); /* Transparence demandée */
+    backdrop-filter: blur(3px);             /* Netteté demandée */
+    -webkit-backdrop-filter: blur(3px);
+    border-top: 2px solid var(--gold);
+    padding: 25px 50px;
+    min-height: 160px;
+    text-align: center;
+    z-index: 10;
+}
+
+#description-text {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    font-style: italic;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8); /* Aide à la lecture sur fond transparent */
+}
+
+#choices-grid {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+#inventory-panel {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    color: var(--gold);
+    font-family: 'Cinzel';
+    border-top: 1px solid rgba(212,175,55,0.3);
+    padding-top: 10px;
+}
+
+/* --- AJOUTEZ CECI DANS STYLE.CSS --- */
+
+#top-bar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    z-index: 100;
+}
+
+#player-name {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    letter-spacing: 2px;
+}
+
+#rotate-device {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; color: var(--gold);
+    z-index: 9999;
+    text-align: center;
+    justify-content: center; align-items: center;
+    font-family: 'Cinzel', serif;
+}
+
+/* Style de l'image d'indice dans la modale */
+#modal-illustration {
+    transition: transform 0.3s ease; /* Animation fluide de 0.3 secondes */
+    cursor: zoom-in;               /* Curseur loupe */
+    position: relative;
+    z-index: 1;
+    /* L'image s'agrandit à partir du bord gauche */
+    transform-origin: left center; 
+    border: 1px solid #3d2b1f;     /* Ton style actuel */
+}
+
+/* Effet au survol de la souris */
+#modal-illustration:hover {
+    transform: scale(3.5);         /* Facteur d'agrandissement (ajustable) */
+    z-index: 100;                  /* Passe au-dessus du texte */
+    box-shadow: 10px 10px 25px rgba(0,0,0,0.6); /* Ombre portée pour le relief */
+}
+

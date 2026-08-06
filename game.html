@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Secret du Lys Noir - Exploration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Système de rotation -->
+    <div id="rotate-device">
+        <div class="rotate-content">
+            <p>Veuillez passer en mode paysage.</p>
+        </div>
+    </div>
+
+    <!-- Modale Message -->
+    <div id="custom-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div style="display: flex; align-items: center; gap: 20px; width: 100%;">
+                <img id="modal-illustration" src="" style="display:none; max-width: 150px; border: 1px solid #3d2b1f;">
+                <div id="modal-text" style="flex: 1;"></div>
+            </div>
+            <div id="modal-input-area" style="display:none; margin-top:20px;">
+                <input type="text" id="modal-input-field">
+            </div>
+            <button id="modal-btn" class="btn-modal">Continuer</button>
+        </div>
+    </div>
+
+    <!-- Modale Objet -->
+    <div id="item-modal" class="modal-overlay" style="display:none;">
+        <div class="item-modal-content">
+            <div class="item-modal-left"><img id="item-modal-img" src=""></div>
+            <div class="item-modal-right">
+                <h2 id="item-modal-title" style="font-family:Cinzel; color:var(--gold); margin-top:0;">OBJET TROUVÉ</h2>
+                <div id="item-modal-text" style="font-size:1.1rem; color:white; margin-bottom:20px;"></div>
+                <button id="item-modal-btn" class="btn-main" style="width:auto;">Ranger dans le sac</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENEUR DE JEU (Les IDs essentiels sont ici) -->
+    <div id="scene-container">
+        
+        <div id="top-bar">
+            <div id="player-name">Explorateur</div>
+            <button class="btn-main" onclick="logout()" style="width: auto; padding: 5px 15px; font-size: 0.7rem;">Quitter</button>
+        </div>
+
+        <div id="ui-panel">
+            <div id="description-text">...</div>
+            <div id="choices-grid"></div>
+            <div id="inventory-panel">
+                SAC D'EXPLORATEUR : <span id="inventory-list">Vide</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="js/engine/scenes-engine.js"></script>
+    
+</body>
+</html>

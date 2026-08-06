@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Secret du Lys Noir - Accueil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="bg-accueil"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- MODALE PARCHEMIN -->
+    <div id="custom-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div style="display: flex; align-items: center; gap: 20px; width: 100%;">
+                <img id="modal-illustration" src="" style="display:none; max-width: 150px; border: 1px solid #3d2b1f; filter: sepia(0.5);">
+                <div id="modal-text" style="flex: 1;"></div>
+            </div>
+            <div id="modal-input-area" style="display:none; margin-top:20px;">
+                <input type="text" id="modal-input-field" placeholder="Votre réponse...">
+            </div>
+            <button id="modal-btn" class="btn-modal">Continuer</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header-titles">
+            <h1>LE SECRET DU LYS NOIR</h1>
+            <div class="subtitle">L'HÉRITAGE DE VAUBAN - BESANÇON</div>
+        </div>
+
+        <div class="auth-card">
+            <h2 id="form-title">REJOINDRE L'EXPÉDITION</h2>
+            
+            <div id="group-pseudo" class="input-group">
+                <label>Nom de l'explorateur</label>
+                <input type="text" id="pseudo" placeholder="Ex: Jules César">
+            </div>
+            
+            <div class="input-group">
+                <label>Courrier de l'Académie (Email)</label>
+                <input type="email" id="email" placeholder="votre@email.com">
+            </div>
+
+            <div class="input-group">
+                <label>Code secret (Mot de passe)</label>
+                <input type="password" id="password" placeholder="********">
+            </div>
+
+            <button class="btn-main" id="submit-auth">PÉNÉTRER DANS LA CITADELLE</button>
+            <div class="toggle-auth" id="toggle-link">Déjà inscrit ? Se connecter</div>
+        </div>
+    </div>
+    
+    <!-- COPYRIGHT EN BAS À GAUCHE -->
+    <div class="credits">© 2026 - Imaginé et créé par Bruno CULOT</div>
+
+    <script type="module" src="js/auth.js"></script>
+</body>
+</html>
