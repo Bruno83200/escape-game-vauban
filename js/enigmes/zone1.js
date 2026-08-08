@@ -64,7 +64,7 @@ export function utiliserFrottis() {
 
 export function lireArchives() {
     playSound('bruit_frottement_papier');
-    UI.message("Vos notes indiquent : 'La muraille fut gravée par les ingénieurs royaux l'année où Besançon devint française...'", 
+    UI.message("Vos notes indiquent : 'La muraille fut gravée par les ingénieurs royaux l'année où Besançon devint française à l'issue du siège de Louis XIV !'", 
         null, "assets/images/items/archives_item.webp");
 }
 
