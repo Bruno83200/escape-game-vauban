@@ -1,86 +1,141 @@
-// js/engine/audio.js
+// js/engine/audio.js — Gestionnaire sonore immersif avec fondu & contrôle muet
 
-export const sounds = {
-    // --- AMBIANCES (Boucles) ---
-    ambiance_vent_citadelle: new Audio('assets/audio/ambiance_vent_citadelle.mp3'),    
-    succes: new Audio('assets/audio/succes.mp3'),
-    erreur: new Audio('assets/audio/erreur.mp3'),
-    herse_ouverture: new Audio('assets/audio/herse_ouverture.mp3'),
-    bruit_frottement_papier: new Audio('assets/audio/bruit_frottement_papier.mp3'),
-    clic_serrure: new Audio('assets/audio/clic_serrure.mp3'),
-    ambiance_remparts_vent: new Audio('assets/audio/ambiance_remparts_vent.mp3'),
-    bruit_compas_metal: new Audio('assets/audio/bruit_compas_metal.mp3'),
-    ambiance_galerie: new Audio('assets/audio/ambiance_galerie.mp3'),
-    bruit_verre: new Audio('assets/audio/bruit_verre.mp3'),
-    clic_coffre: new Audio('assets/audio/clic_coffre.mp3'),
-    son_morse_liberte: new Audio('assets/audio/son_morse_liberte.mp3'),
-    ouverture_grille: new Audio('assets/audio/ouverture_grille.mp3'),
-    ambiance_poudriere: new Audio('assets/audio/ambiance_poudriere.mp3'),
-    bruit_metal_leger: new Audio('assets/audio/bruit_metal_leger.mp3'),
-    ambiance_grand_puits: new Audio('assets/audio/ambiance_grand_puits.mp3'),
-    bruit_roue_bois: new Audio('assets/audio/bruit_roue_bois.mp3'),
-    seau_eau_plein: new Audio('assets/audio/seau_eau_plein.mp3'),
-    ambiance_citernes: new Audio('assets/audio/ambiance_citernes.mp3'),
-    bruit_valve_metal: new Audio('assets/audio/bruit_valve_metal.mp3'),
-    eau_versee: new Audio('assets/audio/eau_versee.mp3'),
-    ambiance_final: new Audio('assets/audio/ambiance_final.mp3'),
-    bruit_page_papier: new Audio('assets/audio/bruit_page_papier.mp3'),
-    bruit_canon_deplace: new Audio('assets/audio/bruit_canon_deplace.mp3'),
-    fanfare_victoire: new Audio('assets/audio/fanfare_victoire.mp3'),
-    bruit_feu: new Audio('assets/audio/bruit_feu.mp3'),
-    corde_rupture: new Audio('assets/audio/corde_rupture.mp3'),
+const AUDIO_SPEC = {
+  // Ambiances par zone
+  ambiance_vent_citadelle: { src: "assets/audio/ambiance_vent_citadelle.mp3", vol: 0.52 },
+  ambiance_remparts_vent:  { src: "assets/audio/ambiance_remparts_vent.mp3",  vol: 0.38 },
+  ambiance_galerie:        { src: "assets/audio/ambiance_galerie.mp3",        vol: 0.42 },
+  ambiance_poudriere:      { src: "assets/audio/ambiance_poudriere.mp3",      vol: 0.32 },
+  ambiance_grand_puits:    { src: "assets/audio/ambiance_grand_puits.mp3",    vol: 0.48 },
+  ambiance_citernes:       { src: "assets/audio/ambiance_citernes.mp3",       vol: 0.40 },
+  ambiance_final:          { src: "assets/audio/ambiance_final.mp3",          vol: 0.40 },
+  fanfare_victoire:        { src: "assets/audio/fanfare_victoire.mp3",        vol: 0.36 },
+
+  // Effets sonores
+  succes:                  { src: "assets/audio/succes.mp3",                  vol: 0.62 },
+  erreur:                  { src: "assets/audio/erreur.mp3",                  vol: 0.48 },
+  herse_ouverture:         { src: "assets/audio/herse_ouverture.mp3",         vol: 0.92 },
+  bruit_frottement_papier: { src: "assets/audio/bruit_frottement_papier.mp3", vol: 0.58 },
+  clic_serrure:            { src: "assets/audio/clic_serrure.mp3",            vol: 0.80 },
+  bruit_compas_metal:      { src: "assets/audio/bruit_compas_metal.mp3",      vol: 0.72 },
+  bruit_verre:             { src: "assets/audio/bruit_verre.mp3",             vol: 0.55 },
+  clic_coffre:             { src: "assets/audio/clic_coffre.mp3",             vol: 0.72 },
+  son_morse_liberte:       { src: "assets/audio/son_morse_liberte.mp3",       vol: 0.88 },
+  ouverture_grille:        { src: "assets/audio/ouverture_grille.mp3",        vol: 0.72 },
+  bruit_metal_leger:       { src: "assets/audio/bruit_metal_leger.mp3",       vol: 0.64 },
+  bruit_roue_bois:         { src: "assets/audio/bruit_roue_bois.mp3",         vol: 0.64 },
+  seau_eau_plein:          { src: "assets/audio/seau_eau_plein.mp3",          vol: 0.72 },
+  bruit_valve_metal:       { src: "assets/audio/bruit_valve_metal.mp3",       vol: 0.62 },
+  eau_versee:              { src: "assets/audio/eau_versee.mp3",              vol: 0.54 },
+  bruit_page_papier:       { src: "assets/audio/bruit_page_papier.mp3",       vol: 0.62 },
+  bruit_canon_deplace:     { src: "assets/audio/bruit_canon_deplace.mp3",     vol: 0.64 },
+  bruit_feu:               { src: "assets/audio/bruit_feu.mp3",               vol: 0.55 },
+  corde_rupture:           { src: "assets/audio/corde_rupture.mp3",           vol: 0.68 }
 };
 
-// RÉGLAGES PRÉCIS DES VOLUMES (Ajuste selon tes fichiers)
-sounds.ambiance_vent_citadelle.volume = 0.6; // On baisse le vent pour laisser la place aux effets
-sounds.succes.volume = 0.6;
-sounds.erreur.volume = 0.5;
-sounds.herse_ouverture.volume = 1.0; 
-sounds.bruit_frottement_papier.volume = 0.6;
-sounds.clic_serrure.volume = 0.8;
-sounds.ambiance_remparts_vent.volume = 0.4;
-sounds.bruit_compas_metal.volume = 0.7;
-sounds.ambiance_galerie.volume = 0.4; // Plus bas pour l'écho des grottes
-sounds.bruit_verre.volume = 0.6;
-sounds.clic_coffre.volume = 0.7;
-sounds.son_morse_liberte.volume = 0.9;
-sounds.ouverture_grille.volume = 0.7;
-sounds.ambiance_poudriere.volume = 0.3;
-sounds.bruit_metal_leger.volume = 0.6;
-sounds.ambiance_grand_puits.volume = 0.5;
-sounds.bruit_roue_bois.volume = 0.6;
-sounds.seau_eau_plein.volume = 0.7;
-sounds.ambiance_citernes.volume = 0.4;
-sounds.bruit_valve_metal.volume = 0.6;
-sounds.eau_versee.volume = 0.5;
-sounds.ambiance_final.volume = 0.4;
-sounds.bruit_page_papier.volume = 0.6;
-sounds.bruit_canon_deplace.volume = 0.6;
-sounds.fanfare_victoire.volume = 0.3;
-sounds.bruit_feu.volume = 0.5;
-sounds.corde_rupture.volume = 0.6;
+export const sounds = {};
+const targetVolumes = {};
+let isMuted = localStorage.getItem("vauban_muted") === "1";
+let currentAmbienceKey = null;
 
+for (const [key, cfg] of Object.entries(AUDIO_SPEC)) {
+  const audio = new Audio(cfg.src);
+  audio.preload = "none";
+  audio.volume = isMuted ? 0 : cfg.vol;
+  audio.muted = isMuted;
+  sounds[key] = audio;
+  targetVolumes[key] = cfg.vol;
+}
+
+export function getMuted() {
+  return isMuted;
+}
+
+export function toggleMute() {
+  isMuted = !isMuted;
+  localStorage.setItem("vauban_muted", isMuted ? "1" : "0");
+  for (const [key, audio] of Object.entries(sounds)) {
+    audio.muted = isMuted;
+    if (!isMuted) audio.volume = targetVolumes[key];
+  }
+  if (!isMuted && currentAmbienceKey && sounds[currentAmbienceKey]?.paused) {
+    sounds[currentAmbienceKey].play().catch(() => {});
+  }
+  return isMuted;
+}
 
 export function playSound(name) {
-    if (sounds[name]) {
-        sounds[name].currentTime = 0;
-        sounds[name].play().catch(e => console.warn("Audio bloqué par le navigateur : cliquez sur la page d'abord."));
-    }
+  const audio = sounds[name];
+  if (!audio) return;
+  audio.muted = isMuted;
+  audio.volume = isMuted ? 0 : targetVolumes[name];
+  audio.currentTime = 0;
+  audio.play().catch(() => {});
+}
+
+export function stopSound(name) {
+  const audio = sounds[name];
+  if (!audio) return;
+  audio.pause();
+  audio.currentTime = 0;
+}
+
+export function playAmbience(name) {
+  if (!name || !sounds[name]) return;
+  if (currentAmbienceKey === name && !sounds[name].paused) return;
+
+  stopAllAmbiance();
+  currentAmbienceKey = name;
+
+  const audio = sounds[name];
+  audio.loop = name !== "fanfare_victoire";
+  audio.muted = isMuted;
+  audio.currentTime = 0;
+
+  if (isMuted) {
+    audio.volume = 0;
+    return;
+  }
+
+  // Fondu d'entrée doux sur 700 ms
+  const target = targetVolumes[name] ?? 0.45;
+  audio.volume = 0.02;
+  audio.play().then(() => {
+    const start = performance.now();
+    const fade = (now) => {
+      if (currentAmbienceKey !== name || isMuted) return;
+      const t = Math.min(1, (now - start) / 700);
+      audio.volume = target * t;
+      if (t < 1) requestAnimationFrame(fade);
+    };
+    requestAnimationFrame(fade);
+  }).catch(() => {});
+}
+
+export function resumePendingAmbience() {
+  if (isMuted || !currentAmbienceKey) return;
+  const audio = sounds[currentAmbienceKey];
+  if (audio && audio.paused) {
+    audio.volume = targetVolumes[currentAmbienceKey] ?? 0.45;
+    audio.play().catch(() => {});
+  }
 }
 
 export function stopAllAmbiance() {
-    Object.values(sounds).forEach(s => {
-        if (s.loop) {
-            s.pause();
-            s.currentTime = 0;
-            s.loop = false;
-        }
-    });
+  Object.keys(sounds).forEach((k) => {
+    if (k.startsWith("ambiance_") || k === "fanfare_victoire") {
+      sounds[k].pause();
+      sounds[k].currentTime = 0;
+      sounds[k].loop = false;
+    }
+  });
+  currentAmbienceKey = null;
 }
 
 export function stopAllSounds() {
-    Object.values(sounds).forEach(s => {
-        s.pause();
-        s.currentTime = 0;
-    });
+  Object.values(sounds).forEach((s) => {
+    s.pause();
+    s.currentTime = 0;
+  });
+  currentAmbienceKey = null;
 }
