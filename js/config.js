@@ -1,4 +1,4 @@
-// js/config.js
+// js/config.js — Configuration Firebase originale du projet Le Secret du Lys Noir
 export const firebaseConfig = {
   apiKey: "AIzaSyB1FQKa50vBkagW44U0YRr5aJdIVipzxw8",
   authDomain: "le-secret-du-lys-noir.firebaseapp.com",
@@ -7,4 +7,3 @@ export const firebaseConfig = {
   messagingSenderId: "755866520078",
   appId: "1:755866520078:web:68bed340de0fd4bbacca5f"
 };
-
