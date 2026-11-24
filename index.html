@@ -1,62 +1,169 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Secret du Lys Noir - Accueil</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Secret du Lys Noir — L'Héritage de Vauban</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/auth.css" />
 </head>
-<body>
-    <div class="bg-accueil"></div>
-    <div class="bg-overlay"></div>
+<body class="auth-page">
+  <div class="auth-bg-photo" aria-hidden="true"></div>
+  <div class="auth-bg-wash" aria-hidden="true"></div>
 
-    <!-- MODALE PARCHEMIN -->
-    <div id="custom-modal" class="modal-overlay">
-        <div class="modal-content">
-            <div style="display: flex; align-items: center; gap: 20px; width: 100%;">
-                <img id="modal-illustration" src="" style="display:none; max-width: 150px; border: 1px solid #3d2b1f; filter: sepia(0.5);">
-                <div id="modal-text" style="flex: 1;"></div>
-            </div>
-            <div id="modal-input-area" style="display:none; margin-top:20px;">
-                <input type="text" id="modal-input-field" placeholder="Votre réponse...">
-            </div>
-            <button id="modal-btn" class="btn-modal">Continuer</button>
+  <div class="auth-stage">
+    <!-- Bandeau cartographique supérieur -->
+    <header class="auth-topbar">
+      <div class="auth-coords">
+        <span class="dot"></span>
+        <span>Citadelle de Besançon · 47°13′53″ N · 06°01′56″ E</span>
+      </div>
+      <div class="auth-coords">
+        <span>Plans &amp; Fortifications · XVIIᵉ Siècle</span>
+      </div>
+    </header>
+
+    <!-- Corps principal : Présentation & Carnet d'Accréditation -->
+    <main class="auth-main">
+      <section class="hero-editorial">
+        <div class="hero-emblem-row">
+          <!-- Emblème géométrique : Fortification en étoile de Vauban -->
+          <svg class="bastion-emblem" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <polygon points="32,4 40,20 58,22 45,35 49,54 32,45 15,54 19,35 6,22 24,20" fill="rgba(223,184,107,0.12)" />
+            <polygon points="32,14 37,24 48,26 40,34 42,45 32,40 22,45 24,34 16,26 27,24" stroke-opacity="0.7" />
+            <circle cx="32" cy="32" r="4" fill="currentColor" />
+            <line x1="32" y1="0" x2="32" y2="8" stroke-opacity="0.5" />
+            <line x1="32" y1="56" x2="32" y2="64" stroke-opacity="0.5" />
+            <line x1="0" y1="32" x2="8" y2="32" stroke-opacity="0.5" />
+            <line x1="56" y1="32" x2="64" y2="32" stroke-opacity="0.5" />
+          </svg>
+          <span class="hero-kicker">Escape Game Patrimonial Interactif</span>
         </div>
+
+        <h1 class="hero-title">LE SECRET DU<br />LYS NOIR</h1>
+        <p class="hero-subtitle">L'HÉRITAGE DE VAUBAN — BESANÇON</p>
+
+        <p class="hero-lead">
+          « Sous les pierres taillées de la Citadelle repose une énigme léguée par l'ingénieur du Roi.
+          D'après des photographies réelles des remparts, ouvrez votre carnet d'architecte et percez les quatre bastions du secret. »
+        </p>
+
+        <div class="hero-zones-preview" aria-label="Les 4 zones de l'expédition">
+          <span class="zone-pill"><strong>I.</strong> Front Saint-Étienne</span>
+          <span class="zone-pill"><strong>II.</strong> Remparts &amp; Galerie 110</span>
+          <span class="zone-pill"><strong>III.</strong> Poudrière &amp; Grand Puits</span>
+          <span class="zone-pill"><strong>IV.</strong> Front Royal</span>
+        </div>
+      </section>
+
+      <!-- Carte Parchemin d'Accréditation (Connexion obligatoire Firebase) -->
+      <section class="accreditation-card parchment-surface folio-frame" aria-labelledby="form-title">
+        <span class="card-corner tl" aria-hidden="true"></span>
+        <span class="card-corner tr" aria-hidden="true"></span>
+        <span class="card-corner bl" aria-hidden="true"></span>
+        <span class="card-corner br" aria-hidden="true"></span>
+
+        <div class="card-stamp-header">
+          <div class="folio-tag">Académie Royale des Fortifications</div>
+          <h2 id="form-title">REJOINDRE L'EXPÉDITION</h2>
+          <p id="form-subtitle">Enregistrez votre carnet pour sauvegarder votre avancée</p>
+        </div>
+
+        <div class="auth-tabs" role="tablist">
+          <button type="button" class="auth-tab is-active" id="tab-register" role="tab" aria-selected="true">
+            Nouvel Explorateur
+          </button>
+          <button type="button" class="auth-tab" id="tab-login" role="tab" aria-selected="false">
+            Déjà Inscrit
+          </button>
+        </div>
+
+        <form id="auth-form" novalidate>
+          <div id="group-pseudo" class="field-group">
+            <label for="pseudo">
+              <span>Nom de l'explorateur</span>
+              <span class="field-hint">Affiché au Tableau d'Honneur</span>
+            </label>
+            <div class="input-wrap">
+              <input type="text" id="pseudo" class="field-input" placeholder="Ex : Sébastien de Vauban" autocomplete="nickname" />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="email">
+              <span>Courrier de l'Académie</span>
+              <span class="field-hint">Adresse email</span>
+            </label>
+            <div class="input-wrap">
+              <input type="email" id="email" class="field-input" placeholder="explorateur@academie.fr" autocomplete="email" required />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="password">
+              <span>Code secret</span>
+              <span class="field-hint">6 caractères minimum</span>
+            </label>
+            <div class="input-wrap">
+              <input type="password" id="password" class="field-input has-toggle" placeholder="••••••••" autocomplete="current-password" required />
+              <button type="button" class="password-toggle" id="toggle-password" aria-label="Afficher ou masquer le mot de passe">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div id="auth-feedback" class="auth-feedback" role="alert"></div>
+
+          <button type="submit" class="btn-royal submit-btn-full" id="submit-auth">
+            <span>Pénétrer dans la Citadelle</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </button>
+        </form>
+
+        <div class="auth-footer-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+          </svg>
+          <span>Progression synchronisée · Accès par compte Académie</span>
+        </div>
+      </section>
+    </main>
+
+    <!-- Pied de page & crédits de l'auteur -->
+    <footer class="auth-bottombar">
+      <div class="auth-credits">© 2026 — Imaginé et créé par Bruno CULOT</div>
+      <div class="auth-badge-photo">Photographies réelles · Citadelle de Besançon (UNESCO)</div>
+    </footer>
+  </div>
+
+  <!-- Modale parchemin d'accueil -->
+  <div id="custom-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <div class="parchment-modal parchment-surface folio-frame">
+      <div class="modal-header-tag">
+        <span id="modal-kicker" class="folio-tag">Sceau de l'Académie</span>
+      </div>
+      <h3 class="modal-title" id="modal-title-text">Message de la Citadelle</h3>
+      <div class="modal-body-row stacked">
+        <div id="modal-thumb-wrap" class="modal-thumb-wrap" style="display:none;">
+          <img id="modal-illustration" src="" alt="Illustration d'archive" />
+        </div>
+        <div id="modal-text" class="modal-prose"></div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" id="modal-btn" class="btn-royal">Continuer</button>
+      </div>
     </div>
+  </div>
 
-    <div class="container">
-        <div class="header-titles">
-            <h1>LE SECRET DU LYS NOIR</h1>
-            <div class="subtitle">L'HÉRITAGE DE VAUBAN - BESANÇON</div>
-        </div>
-
-        <div class="auth-card">
-            <h2 id="form-title">REJOINDRE L'EXPÉDITION</h2>
-            
-            <div id="group-pseudo" class="input-group">
-                <label>Nom de l'explorateur</label>
-                <input type="text" id="pseudo" placeholder="Ex: Jules César">
-            </div>
-            
-            <div class="input-group">
-                <label>Courrier de l'Académie (Email)</label>
-                <input type="email" id="email" placeholder="votre@email.com">
-            </div>
-
-            <div class="input-group">
-                <label>Code secret (Mot de passe)</label>
-                <input type="password" id="password" placeholder="********">
-            </div>
-
-            <button class="btn-main" id="submit-auth">PÉNÉTRER DANS LA CITADELLE</button>
-            <div class="toggle-auth" id="toggle-link">Déjà inscrit ? Se connecter</div>
-        </div>
-    </div>
-    
-    <!-- COPYRIGHT EN BAS À GAUCHE -->
-    <div class="credits">© 2026 - Imaginé et créé par Bruno CULOT</div>
-
-    <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/auth.js"></script>
 </body>
 </html>

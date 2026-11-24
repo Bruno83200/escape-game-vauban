@@ -1,65 +1,241 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Secret du Lys Noir - Exploration</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Secret du Lys Noir — Exploration de la Citadelle</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/game.css" />
+  <link rel="stylesheet" href="css/minigames.css" />
 </head>
-<body>
-    <!-- Système de rotation -->
-    <div id="rotate-device">
-        <div class="rotate-content">
-            <p>Veuillez passer en mode paysage.</p>
+<body class="game-page">
+  <div id="scene-stage">
+    <!-- Double couche photographique pour fondus fluides -->
+    <div id="scene-layer-a" class="scene-layer is-visible" aria-hidden="true"></div>
+    <div id="scene-layer-b" class="scene-layer" aria-hidden="true"></div>
+    <div class="scene-vignette" aria-hidden="true"></div>
+    <div class="scene-draft-frame" aria-hidden="true"></div>
+
+    <!-- RUBAN SUPÉRIEUR D'ARCHITECTE -->
+    <header class="top-ribbon">
+      <div class="ribbon-left">
+        <div class="ribbon-seal" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4">
+            <polygon points="32,6 40,21 56,23 44,35 48,52 32,44 16,52 20,35 8,23 24,21" />
+            <circle cx="32" cy="32" r="4" fill="currentColor" />
+          </svg>
         </div>
+        <div class="ribbon-location">
+          <div id="zone-label" class="ribbon-zone-label">Zone I · Front Saint-Étienne</div>
+          <div id="scene-title" class="ribbon-scene-title">Le Pont Dormant</div>
+        </div>
+      </div>
+
+      <!-- Progression des 4 Zones -->
+      <nav id="zone-stepper" class="zone-stepper" aria-label="Progression des 4 zones"></nav>
+
+      <!-- Contrôles Explorateur -->
+      <div class="ribbon-actions">
+        <div class="player-chip" title="Explorateur accrédité">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" width="15" height="15">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M5 20a7 7 0 0 1 14 0" />
+          </svg>
+          <span id="player-name">Explorateur</span>
+        </div>
+
+        <button type="button" class="btn-icon btn-journal" id="btn-journal" title="Ouvrir le Carnet d'Architecte">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+          </svg>
+          <span class="btn-label">Carnet</span>
+          <span id="journal-badge" class="journal-badge">0</span>
+        </button>
+
+        <button type="button" class="btn-icon btn-audio" id="btn-audio" title="Activer ou couper le son">
+          <svg id="icon-audio-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+            <path d="M19 5a10 10 0 0 1 0 14" />
+          </svg>
+          <svg id="icon-audio-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" style="display:none;">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <line x1="23" y1="9" x2="17" y2="15" />
+            <line x1="17" y1="9" x2="23" y2="15" />
+          </svg>
+          <span class="btn-label">Son</span>
+        </button>
+
+        <button type="button" class="btn-icon" id="btn-logout" title="Quitter l'expédition">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          <span class="btn-label">Quitter</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Bannière d'entrée de zone -->
+    <div id="zone-announcement" class="zone-announcement" aria-live="polite">
+      <div id="zone-announcement-kicker" class="zone-announcement-kicker">ZONE I</div>
+      <div id="zone-announcement-title" class="zone-announcement-title">Le Front Saint-Étienne</div>
     </div>
 
-    <!-- Modale Message -->
-    <div id="custom-modal" class="modal-overlay">
-        <div class="modal-content">
-            <div style="display: flex; align-items: center; gap: 20px; width: 100%;">
-                <img id="modal-illustration" src="" style="display:none; max-width: 150px; border: 1px solid #3d2b1f;">
-                <div id="modal-text" style="flex: 1;"></div>
-            </div>
-            <div id="modal-input-area" style="display:none; margin-top:20px;">
-                <input type="text" id="modal-input-field">
-            </div>
-            <button id="modal-btn" class="btn-modal">Continuer</button>
+    <!-- FOLIO INFÉRIEUR FLOTTANT -->
+    <section class="folio-dock-wrap" aria-label="Carnet de terrain">
+      <div id="folio-dock" class="folio-dock parchment-surface">
+        <div class="folio-head">
+          <div class="folio-meta">
+            <span id="folio-step-pill" class="folio-step-pill">Folio 01</span>
+            <span id="folio-subtitle" class="folio-tag">Pont Dormant</span>
+          </div>
+
+          <div class="folio-head-controls">
+            <button type="button" class="btn-mini-ghost" id="btn-scene-hint" style="display:none;" title="Demander un indice de Vauban">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+              <span>Indice</span>
+            </button>
+            <button type="button" class="btn-mini-ghost" id="btn-collapse-folio" title="Réduire pour admirer la photo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+              <span id="collapse-label">Vue photo</span>
+            </button>
+          </div>
         </div>
+
+        <div class="folio-collapsible">
+          <p id="description-text">Chargement de votre carnet d'expédition…</p>
+
+          <div id="choices-grid"></div>
+
+          <div class="inventory-strip">
+            <div class="inventory-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+              <span>Sac d'explorateur</span>
+            </div>
+            <div id="inventory-slots" class="inventory-slots">
+              <span class="inventory-empty">Aucun objet recueilli pour l'instant</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- MODALE PARCHEMIN (Messages & Archives) -->
+  <div id="custom-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <div class="parchment-modal parchment-surface folio-frame">
+      <div class="modal-header-tag">
+        <span id="modal-kicker" class="folio-tag">Note de l'Architecte</span>
+      </div>
+      <h3 class="modal-title" id="modal-title-text">Citadelle de Besançon</h3>
+      <div id="modal-body-row" class="modal-body-row">
+        <div id="modal-thumb-wrap" class="modal-thumb-wrap" style="display:none;" title="Cliquer pour examiner à la loupe">
+          <img id="modal-illustration" src="" alt="Document d'archive" />
+          <span class="modal-thumb-zoom">🔍 Loupe</span>
+        </div>
+        <div id="modal-text" class="modal-prose"></div>
+      </div>
+      <div id="modal-extra"></div>
+      <div class="modal-actions">
+        <button type="button" id="modal-btn" class="btn-royal">Continuer</button>
+      </div>
     </div>
+  </div>
 
-    <!-- Modale Objet -->
-    <div id="item-modal" class="modal-overlay" style="display:none;">
-        <div class="item-modal-content">
-            <div class="item-modal-left"><img id="item-modal-img" src=""></div>
-            <div class="item-modal-right">
-                <h2 id="item-modal-title" style="font-family:Cinzel; color:var(--gold); margin-top:0;">OBJET TROUVÉ</h2>
-                <div id="item-modal-text" style="font-size:1.1rem; color:white; margin-bottom:20px;"></div>
-                <button id="item-modal-btn" class="btn-main" style="width:auto;">Ranger dans le sac</button>
-            </div>
+  <!-- MODALE OBJET TROUVÉ -->
+  <div id="item-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="item-modal-title">
+    <div class="item-showcase-modal parchment-surface folio-frame">
+      <div id="item-modal-media" class="item-showcase-media" title="Cliquer pour examiner en détail">
+        <img id="item-modal-img" src="" alt="Objet découvert" />
+      </div>
+      <div class="item-showcase-body">
+        <span class="folio-tag">Pièce consignée dans le sac</span>
+        <h2 id="item-modal-title" class="item-showcase-title">Objet trouvé</h2>
+        <p id="item-modal-text" class="item-showcase-desc"></p>
+        <div>
+          <button type="button" id="item-modal-btn" class="btn-royal">Ranger dans le sac</button>
         </div>
+      </div>
     </div>
+  </div>
 
-    <!-- CONTENEUR DE JEU (Les IDs essentiels sont ici) -->
-    <div id="scene-container">
-        
-        <div id="top-bar">
-            <div id="player-name">Explorateur</div>
-            <button class="btn-main" onclick="logout()" style="width: auto; padding: 5px 15px; font-size: 0.7rem;">Quitter</button>
+  <!-- MODALE ATELIER INTERACTIF (MINI-JEUX DE VAUBAN) -->
+  <div id="workbench-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="workbench-title">
+    <div class="workbench-modal parchment-surface folio-frame">
+      <button type="button" class="modal-close-x" id="workbench-close" aria-label="Fermer l'atelier">×</button>
+      <div class="workbench-header">
+        <div class="workbench-title-group">
+          <span id="workbench-kicker" class="folio-tag">Atelier d'Ingénieur</span>
+          <h2 id="workbench-title">Épreuve de Vauban</h2>
         </div>
-
-        <div id="ui-panel">
-            <div id="description-text">...</div>
-            <div id="choices-grid"></div>
-            <div id="inventory-panel">
-                SAC D'EXPLORATEUR : <span id="inventory-list">Vide</span>
-            </div>
-        </div>
-
+        <button type="button" class="btn-mini-ghost" id="workbench-hint-btn" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+          <span>Coup de pouce</span>
+        </button>
+      </div>
+      <div class="workbench-body">
+        <p id="workbench-instruction" class="workbench-instruction"></p>
+        <div id="workbench-stage"></div>
+        <div id="workbench-hint-box" class="workbench-hint-box"></div>
+        <div id="workbench-status" class="workbench-status" role="status"></div>
+      </div>
+      <div id="workbench-footer" class="workbench-footer"></div>
     </div>
+  </div>
 
-    <script type="module" src="js/engine/scenes-engine.js"></script>
-    
+  <!-- MODALE CARNET D'ARCHITECTE -->
+  <div id="journal-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="journal-heading">
+    <div class="journal-modal parchment-surface folio-frame">
+      <button type="button" class="modal-close-x" id="journal-close" aria-label="Fermer le carnet">×</button>
+      <div class="journal-header">
+        <span class="folio-tag">Plans &amp; Relevés de Terrain</span>
+        <h2 id="journal-heading">Carnet d'Architecte de Vauban</h2>
+        <div class="journal-tabs" role="tablist">
+          <button type="button" class="journal-tab is-active" data-jtab="clues">Archives &amp; Indices</button>
+          <button type="button" class="journal-tab" data-jtab="route">Plan des 4 Zones</button>
+          <button type="button" class="journal-tab" data-jtab="bag">Sac d'Explorateur</button>
+        </div>
+      </div>
+      <div id="journal-content" class="journal-content"></div>
+    </div>
+  </div>
+
+  <!-- VISIONNEUSE LOUPE PLEIN ÉCRAN -->
+  <div id="lightbox-modal" class="lightbox-backdrop" role="dialog" aria-modal="true" aria-label="Loupe d'archive">
+    <div class="lightbox-frame">
+      <img id="lightbox-img" src="" alt="Aperçu agrandi" />
+    </div>
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+    <div class="lightbox-toolbar">
+      <button type="button" class="btn-parchment" id="lightbox-zoom-toggle">Agrandir / Ajuster</button>
+      <button type="button" class="btn-royal" id="lightbox-close">Fermer la loupe</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="folio-toast" class="folio-toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/engine/scenes-engine.js"></script>
 </body>
 </html>
