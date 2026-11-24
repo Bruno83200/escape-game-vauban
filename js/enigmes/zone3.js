@@ -1,81 +1,114 @@
-// js/enigmes/zone3.js
-import { UI, checkAnswer } from "../ui.js"; // Ajout de checkAnswer pour la robustesse
-import { getState, setBusy } from "../engine/state.js"; 
+// js/enigmes/zone3.js — Zone III : Le Cœur Souterrain
+
+import { UI } from "../ui.js";
+import { getState, setBusy } from "../engine/state.js";
 import { playSound } from "../engine/audio.js";
 import { changeScene } from "../engine/scenes-engine.js";
-import { ajouterObjet } from "../engine/inventory.js";
+import {
+  runHotspotPuzzle,
+  runWellWinchPuzzle,
+  runHydraulicValvesPuzzle
+} from "../minigames/workbench.js";
 
-// --- ÉNIGME 1 : LA POUDRIÈRE ---
+// 1. LA POUDRIÈRE (Sélection directe sur les 4 objets confisqués -> FER)
 export function enigmePoudriere() {
-    if (getState().isBusy) return; // ✅ Corrigé
-    UI.ask("L'un de ces matériaux (Bronze, Cuir, Bois, Fer) est strictement interdit ici car il peut créer une étincelle fatale. Lequel est-ce ?", async (reponse) => {
-        if (checkAnswer(reponse, ["FER"])) {
-            setBusy(true);
-            playSound('bruit_metal_leger');
-            setTimeout(() => {
-                playSound('succes');
-                UI.message("C'est exact. Le fer est banni des magasins à poudre. Le mécanisme de sécurité se libère.", () => {
-                    setBusy(false);
-                    changeScene("poudriere_ok");
-                });
-            }, 1000);
-        } else {
-            playSound('erreur');
-            UI.message("Ce matériau est utilisé ici sans danger. Cherchez l'alliage capable de provoquer un désastre.");
-        }
-    }, "assets/images/items/objets_materiaux.webp");
+  if (getState().isBusy) return;
+
+  runHotspotPuzzle({
+    kicker: "Zone III · Consigne de Sécurité",
+    title: "L'Établi du Magasin à Poudre",
+    instruction: "L'un de ces quatre objets (Bronze, Cuir, Bois, Fer) est strictement banni des magasins à poudre car il peut provoquer une étincelle fatale. Cliquez sur l'objet interdit pour l'écarter.",
+    hint: "Le bronze, le cuir et le bois sont autorisés dans les poudrières. Seul le fer produit des étincelles au choc !",
+    image: "assets/images/items/objets_materiaux.webp",
+    hotspots: [
+      {
+        label: "Clé en Bronze",
+        left: "5%", top: "6%", width: "27%", height: "86%",
+        correct: false,
+        errorText: "Le bronze ne produit pas d'étincelle : Vauban faisait justement forger les serrures des poudrières en bronze."
+      },
+      {
+        label: "Bourse en Cuir",
+        left: "32%", top: "18%", width: "24%", height: "64%",
+        correct: false,
+        errorText: "Le cuir est souple et parfaitement sûr dans un magasin à poudre."
+      },
+      {
+        label: "Manche en Bois",
+        left: "56%", top: "10%", width: "19%", height: "78%",
+        correct: false,
+        errorText: "Les maillets et outils en bois étaient autorisés pour manipuler les barils sans risque."
+      },
+      {
+        label: "Pointe en Fer",
+        left: "75%", top: "12%", width: "21%", height: "76%",
+        correct: true,
+        successText: "Exact ! Le fer est formellement banni des magasins à poudre."
+      }
+    ],
+    onSuccess: () => {
+      setBusy(true);
+      playSound("bruit_metal_leger");
+      setTimeout(() => {
+        playSound("succes");
+        UI.message(
+          "C'est exact : le fer est banni des poudrières royales pour éviter toute étincelle. En l'écartant, vous libérez le loquet de sécurité de la porte en bronze.",
+          () => {
+            setBusy(false);
+            changeScene("poudriere_ok");
+          },
+          null,
+          { kicker: "Sécurité Assurée", title: "Porte de Bronze Débloquée" }
+        );
+      }, 650);
+    }
+  });
 }
 
-// --- ÉNIGME 2 : LA ROUE DU PUITS ---
+// 2. LE GRAND PUITS (Roue à écureuil -> 9 tours)
 export function enigmeGrandPuits() {
-    if (getState().isBusy) return; // ✅ ÉTAIT EN ERREUR (CORRIGÉ)
+  if (getState().isBusy) return;
 
-    UI.ask("Combien de tours de roue (diamètre 4m) sont nécessaires pour remonter le seau de 117m de profondeur ?", async (reponse) => {
-        // Utilisation de checkAnswer pour accepter "9" ou "neuf" proprement
-        if (checkAnswer(reponse, ["9", "neuf", "9 tours", "neuf tours"])) {
-            setBusy(true);
-            playSound('bruit_roue_bois');
-
-            UI.message("Vous actionnez la roue. Le bois craque lourdement dans le silence du puits...");
-
-            setTimeout(() => {
-                playSound('seau_eau_plein');
-                playSound('succes');
-                
-                UI.message("Le seau arrive enfin à la surface ! L'eau est trouble mais précieuse.", () => {
-                    setBusy(false);
-                    changeScene("puits_eau_trouvee");
-                });
-            }, 4000);
-
-        } else {
-            playSound('erreur');
-            UI.message("La roue tourne un peu mais le seau n'atteint pas la surface. Revoyez votre calcul.");
-        }
-    }, "assets/images/items/puits_dimensions.webp");
+  runWellWinchPuzzle({
+    onSuccess: () => {
+      setBusy(true);
+      setTimeout(() => {
+        playSound("seau_eau_plein");
+        playSound("succes");
+        UI.message(
+          "Après 9 tours vigoureux de la roue à écureuil, le seau surgit des 117 mètres de profondeur ! L'eau est trouble mais précieuse pour actionner les citernes.",
+          () => {
+            setBusy(false);
+            changeScene("puits_eau_trouvee");
+          },
+          null,
+          { kicker: "117 Mètres Remontés", title: "Le Seau Atteint la Surface" }
+        );
+      }, 1600);
+    }
+  });
 }
 
-// --- ÉNIGME 3 : LES VALVES ---
+// 3. LES VALVES DES CITERNES (Simulateur 10L / 3L -> 7L)
 export function enigmeValves() {
-    if (getState().isBusy) return; // ✅ ÉTAIT EN ERREUR (CORRIGÉ)
+  if (getState().isBusy) return;
 
-    UI.ask("Une fois le seau de 3L rempli depuis la citerne de 10L, quel est le volume final (en litres) restant dans la citerne ?", async (reponse) => {
-        if (checkAnswer(reponse, ["7", "sept"])) { // Ajout de "sept" via checkAnswer
-            setBusy(true);
-            playSound('bruit_valve_metal');
-            setTimeout(() => {
-                playSound('eau_versee');
-                setTimeout(() => {
-                    playSound('succes');
-                    UI.message("Le niveau est parfait : 7 litres. Le contrepoids s'équilibre et la porte s'ouvre !", () => {
-                        setBusy(false);
-                        changeScene("zone3_terminee");
-                    });
-                }, 1500);
-            }, 1000);
-        } else {
-            playSound('erreur');
-            UI.message("Le poids n'est pas correct. La porte reste close. Calculez ce qu'il reste dans la citerne.");
-        }
-    }, "assets/images/items/schema_valves.webp");
+  runHydraulicValvesPuzzle({
+    onSuccess: () => {
+      setBusy(true);
+      playSound("eau_versee");
+      setTimeout(() => {
+        playSound("succes");
+        UI.message(
+          "Le niveau est parfait : 7 litres dans la citerne principale ! Le contrepoids s'équilibre et la grande porte souterraine pivote vers la lumière du jour.",
+          () => {
+            setBusy(false);
+            changeScene("zone3_terminee");
+          },
+          null,
+          { kicker: "Zone III Achevée", title: "Contrepoids Équilibré" }
+        );
+      }, 900);
+    }
+  });
 }
