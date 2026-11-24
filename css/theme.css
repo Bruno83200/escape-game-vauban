@@ -1,0 +1,505 @@
+/* ==========================================================================
+   LE SECRET DU LYS NOIR — DESIGN SYSTEM
+   Style : Carnet d'Architecte / Plans de Vauban (Parchemin lumineux & Laiton)
+   ========================================================================== */
+
+:root {
+  /* Surfaces Parchemin & Vélin lumineux */
+  --parchment-50: #fdfaf3;
+  --parchment-100: #faf4e6;
+  --parchment-200: #f3e9d2;
+  --parchment-300: #e7d8b8;
+  --parchment-glass: rgba(251, 246, 236, 0.93);
+  --parchment-glass-soft: rgba(251, 246, 236, 0.86);
+
+  /* Encres & Pierres */
+  --ink-900: #1e1610;
+  --ink-800: #2f2319;
+  --ink-700: #4a3a2b;
+  --ink-500: #76624d;
+  --ink-300: #a5927c;
+
+  /* Bleu de Prusse (Plans d'ingénieur du Roi) */
+  --prussian-900: #132942;
+  --prussian-800: #1b3a5c;
+  --prussian-700: #264f7c;
+  --prussian-100: rgba(27, 58, 92, 0.08);
+  --prussian-200: rgba(27, 58, 92, 0.16);
+
+  /* Laiton & Or Vauban */
+  --brass-700: #8c6320;
+  --brass-600: #b07f2e;
+  --brass-500: #c89a45;
+  --brass-400: #dfb86b;
+  --brass-200: rgba(176, 127, 46, 0.28);
+  --brass-100: rgba(176, 127, 46, 0.12);
+
+  /* Cire royale & Patine */
+  --wax-600: #982e23;
+  --wax-500: #b53a2d;
+  --wax-100: rgba(152, 46, 35, 0.1);
+  --patina-600: #286652;
+  --patina-500: #358168;
+  --patina-100: rgba(40, 102, 82, 0.12);
+
+  /* Typographies */
+  --font-display: 'Cinzel', Georgia, serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-ui: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Ombres & Rayons */
+  --shadow-soft: 0 8px 30px rgba(24, 17, 10, 0.16);
+  --shadow-card: 0 20px 60px rgba(18, 12, 6, 0.28), 0 2px 8px rgba(18, 12, 6, 0.12);
+  --shadow-modal: 0 28px 90px rgba(14, 9, 4, 0.45), 0 0 0 1px rgba(200, 154, 69, 0.45);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --ease-folio: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family: var(--font-ui);
+  color: var(--ink-900);
+  background: var(--parchment-200);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Texture papier vélin + fin quadrillage de plan d'architecte */
+.parchment-surface {
+  background-color: var(--parchment-50);
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(255, 252, 244, 0.9), transparent 55%),
+    radial-gradient(circle at 85% 90%, rgba(226, 206, 169, 0.35), transparent 55%),
+    linear-gradient(rgba(176, 127, 46, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(176, 127, 46, 0.045) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 24px 24px, 24px 24px;
+}
+
+/* Cadre double filet de planche gravée */
+.folio-frame {
+  position: relative;
+  border: 1px solid rgba(176, 127, 46, 0.55);
+  box-shadow: var(--shadow-card);
+}
+
+.folio-frame::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(176, 127, 46, 0.25);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Boutons — Hiérarchie architecturale */
+.btn-royal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 22px;
+  background: linear-gradient(180deg, var(--prussian-700) 0%, var(--prussian-800) 100%);
+  color: var(--parchment-50);
+  border: 1px solid var(--brass-500);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(19, 41, 66, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transition: transform 0.2s var(--ease-folio), box-shadow 0.25s var(--ease-folio), background 0.25s ease;
+}
+
+.btn-royal:hover:not(:disabled) {
+  background: linear-gradient(180deg, #2e5d90 0%, var(--prussian-700) 100%);
+  box-shadow: 0 6px 20px rgba(19, 41, 66, 0.34), 0 0 0 1px var(--brass-400);
+  transform: translateY(-1px);
+}
+
+.btn-royal:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-royal:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-parchment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 18px;
+  background: linear-gradient(180deg, #fffdf8 0%, var(--parchment-200) 100%);
+  color: var(--ink-900);
+  border: 1px solid rgba(176, 127, 46, 0.55);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(30, 22, 16, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.22s var(--ease-folio);
+}
+
+.btn-parchment:hover:not(:disabled) {
+  border-color: var(--prussian-700);
+  color: var(--prussian-800);
+  background: linear-gradient(180deg, #ffffff 0%, var(--parchment-100) 100%);
+  box-shadow: 0 4px 14px rgba(27, 58, 92, 0.14);
+  transform: translateY(-1px);
+}
+
+.btn-wax {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 22px;
+  background: linear-gradient(180deg, var(--wax-500) 0%, var(--wax-600) 100%);
+  color: var(--parchment-50);
+  border: 1px solid rgba(235, 196, 124, 0.55);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(152, 46, 35, 0.3);
+  transition: all 0.22s var(--ease-folio);
+}
+
+.btn-wax:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 12px;
+  background: rgba(253, 250, 243, 0.88);
+  color: var(--ink-800);
+  border: 1px solid rgba(176, 127, 46, 0.45);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+  background: #ffffff;
+  border-color: var(--prussian-700);
+  color: var(--prussian-800);
+}
+
+.btn-icon svg,
+.btn-royal svg,
+.btn-parchment svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Badges & étiquettes de folio */
+.folio-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass-700);
+}
+
+.folio-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0;
+  color: var(--brass-600);
+}
+
+.folio-divider::before,
+.folio-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(176, 127, 46, 0.45), transparent);
+}
+
+/* Modale Parchemin Universelle */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 14, 8, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+  animation: fadeBackdrop 0.24s ease forwards;
+}
+
+.modal-backdrop.is-open {
+  display: flex;
+}
+
+.parchment-modal {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: var(--radius-md);
+  padding: 32px 34px 28px;
+  color: var(--ink-900);
+  box-shadow: var(--shadow-modal);
+  animation: folioAppear 0.32s var(--ease-folio) forwards;
+}
+
+.modal-close-x {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(176, 127, 46, 0.4);
+  background: rgba(255, 252, 245, 0.9);
+  color: var(--ink-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: all 0.2s ease;
+  z-index: 5;
+}
+
+.modal-close-x:hover {
+  background: var(--prussian-800);
+  color: var(--parchment-50);
+  border-color: var(--brass-500);
+}
+
+.modal-header-tag {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--prussian-800);
+  margin: 0 0 12px;
+  text-align: center;
+  letter-spacing: 0.06em;
+}
+
+.modal-body-row {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: 14px 0 22px;
+}
+
+.modal-body-row.stacked {
+  flex-direction: column;
+  text-align: center;
+}
+
+.modal-thumb-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 175px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid rgba(176, 127, 46, 0.55);
+  box-shadow: 0 6px 18px rgba(30, 22, 16, 0.16);
+  cursor: zoom-in;
+  background: var(--parchment-200);
+}
+
+.modal-thumb-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.modal-thumb-wrap:hover img {
+  transform: scale(1.04);
+}
+
+.modal-thumb-zoom {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  background: rgba(253, 250, 243, 0.92);
+  color: var(--prussian-800);
+  border: 1px solid var(--brass-500);
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.modal-prose {
+  flex: 1;
+  font-family: var(--font-serif);
+  font-size: 1.24rem;
+  line-height: 1.58;
+  color: var(--ink-800);
+  white-space: pre-line;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Modale Lightbox Loupe Plein Écran */
+.lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 12, 8, 0.88);
+  backdrop-filter: blur(8px);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 2000;
+}
+
+.lightbox-backdrop.is-open {
+  display: flex;
+  animation: fadeBackdrop 0.2s ease forwards;
+}
+
+.lightbox-frame {
+  position: relative;
+  max-width: min(92vw, 940px);
+  max-height: 82vh;
+  background: var(--parchment-50);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--brass-500);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.65);
+  overflow: auto;
+}
+
+.lightbox-frame img {
+  display: block;
+  max-width: 100%;
+  max-height: 75vh;
+  border-radius: 3px;
+  transition: transform 0.25s ease;
+  cursor: zoom-in;
+}
+
+.lightbox-frame img.is-zoomed {
+  max-width: none;
+  max-height: none;
+  width: 165%;
+  cursor: zoom-out;
+}
+
+.lightbox-caption {
+  margin-top: 12px;
+  color: var(--parchment-100);
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  text-align: center;
+}
+
+.lightbox-toolbar {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* Animations */
+@keyframes fadeBackdrop {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes folioAppear {
+  from { opacity: 0; transform: translateY(14px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(7px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(4px); }
+}
+
+.shake-error {
+  animation: shakeError 0.42s ease;
+}
+
+/* Scrollbar discrète */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(231, 216, 184, 0.35);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(176, 127, 46, 0.55);
+  border-radius: 99px;
+}
+
+@media (max-width: 640px) {
+  .parchment-modal {
+    padding: 24px 20px 22px;
+  }
+  .modal-body-row {
+    flex-direction: column;
+    text-align: center;
+  }
+  .modal-thumb-wrap {
+    width: 100%;
+    max-width: 240px;
+  }
+}
