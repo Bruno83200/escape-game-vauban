@@ -40,8 +40,8 @@ body.auth-page {
   position: fixed;
   inset: 0;
   background:
-    linear-gradient(108deg, rgba(22, 16, 10, 0.72) 0%, rgba(28, 22, 15, 0.42) 48%, rgba(25, 20, 14, 0.56) 100%),
-    radial-gradient(circle at 12% 18%, rgba(244, 205, 128, 0.2), transparent 50%);
+    linear-gradient(108deg, rgba(22, 16, 10, 0.44) 0%, rgba(28, 22, 15, 0.12) 48%, rgba(25, 20, 14, 0.28) 100%),
+    radial-gradient(circle at 12% 18%, rgba(244, 205, 128, 0.28), transparent 50%);
   z-index: 1;
 }
 
